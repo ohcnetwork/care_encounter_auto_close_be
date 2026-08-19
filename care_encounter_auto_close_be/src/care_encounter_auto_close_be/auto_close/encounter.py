@@ -5,7 +5,7 @@ from care.emr.resources.encounter.constants import StatusChoices, ClassChoices
 EncounterAutoCloseRegistry.register(
     display_name="Ambulatory",
     encounter_class=ClassChoices.amb,
-    time_limit=0,
+    time_limit=24,
 )
 
 EncounterAutoCloseRegistry.register(
