@@ -5,12 +5,13 @@ from care.emr.resources.encounter.constants import StatusChoices, ClassChoices
 EncounterAutoCloseRegistry.register(
     display_name="Ambulatory",
     encounter_class=ClassChoices.amb,
-    time_limit=24,
+    time_limit=0,
 )
+
 EncounterAutoCloseRegistry.register(
     display_name="Inpatient",
     encounter_class=ClassChoices.imp,
-    status=StatusChoices.planned,
+    status=StatusChoices.discharged,
     time_limit=24,
 )
 EncounterAutoCloseRegistry.register(

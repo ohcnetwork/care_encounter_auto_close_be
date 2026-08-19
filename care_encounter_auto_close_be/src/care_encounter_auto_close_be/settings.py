@@ -103,8 +103,6 @@ REQUIRED_SETTINGS = {
 
 DEFAULTS = {
     "CARE_ENCOUNTER_AUTO_CLOSE_ENABLED": False,
-    # Hour of day (0-23) the auto-close task runs; timezone follows Celery config.
-    "CARE_ENCOUNTER_AUTO_CLOSE_RUN_HOUR": 0,
 }
 
 plugin_settings = PluginSettings(

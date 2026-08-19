@@ -36,13 +36,16 @@ class EncounterAutoCloseRegistry:
         if not isinstance(encounter_class, ClassChoices):
             msg=f"encounter_class must be an instance of ClassChoices, got {encounter_class}"
             raise TypeError(msg)
-        key = encounter_class.value
-        if key in cls._registry:
-            msg=f"EncounterAutoClose with key '{key}' is already registered."
-            raise ValueError(msg)
+
         if status is not None and not isinstance(status, StatusChoices):
             msg=f"status must be an instance of StatusChoices, got {status}"
             raise TypeError(msg)
+
+        key = f"{encounter_class.value}_{status.value}" if status else encounter_class.value
+
+        if key in cls._registry:
+            msg=f"EncounterAutoClose with key '{key}' is already registered."
+            raise ValueError(msg)
 
         config=EncounterAutoClose(
             display_name=display_name,
@@ -53,11 +56,9 @@ class EncounterAutoCloseRegistry:
         cls._registry[key]=config
 
     @classmethod
-    def get(cls,key:str)->EncounterAutoClose:
-        if key not in cls._registry:
-            msg=f"EncounterAutoClose with key '{key}' is not registered."
-            raise KeyError(msg)
-        return cls._registry[key]
+    def get(cls,key:str,class_key:str)->EncounterAutoClose | None:
+        return cls._registry.get(key) or cls._registry.get(class_key)
+
 
     @classmethod
     def get_all_keys(cls)->list[str]:
@@ -66,7 +67,9 @@ class EncounterAutoCloseRegistry:
     @classmethod
     def get_all_configs(cls)->dict[str,EncounterAutoClose]:
         return cls._registry.copy()
-
+    @classmethod
+    def get_all_config_encounter_class(cls)->list[ClassChoices]:
+        return list({config.encounter_class for config in cls._registry.values()})
     @classmethod
     def clear_registry(cls)->None:
         cls._registry.clear()
