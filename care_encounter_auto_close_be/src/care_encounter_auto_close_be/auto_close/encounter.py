@@ -7,10 +7,11 @@ EncounterAutoCloseRegistry.register(
     encounter_class=ClassChoices.amb,
     time_limit=24,
 )
+
 EncounterAutoCloseRegistry.register(
     display_name="Inpatient",
     encounter_class=ClassChoices.imp,
-    status=StatusChoices.planned,
+    status=StatusChoices.discharged,
     time_limit=24,
 )
 EncounterAutoCloseRegistry.register(
