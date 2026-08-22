@@ -13,12 +13,10 @@ logger = logging.getLogger(__name__)
 def auto_close_encounters():
     """Close eligible open encounters based on the configured rules."""
     if not plugin_settings.CARE_ENCOUNTER_AUTO_CLOSE_ENABLED:
+        logger.info("Auto close encounters task is disabled.")
         return {}
-    summary = run_auto_close()
-    if summary:
-        logger.info("Auto-closed encounters: %s", summary)
-    return summary
-
+    logger.info("Starting auto close encounters task.")
+    run_auto_close()
 
 current_app.conf.beat_schedule["auto_close_encounters"] = {
     "task": "care_encounter_auto_close_be.tasks.auto_close_encounters",

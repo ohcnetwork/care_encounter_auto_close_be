@@ -53,7 +53,6 @@ def run_auto_close() -> dict[str, int]:
         encounter_class__in=EncounterAutoCloseRegistry.get_all_config_encounter_class()
     )
     now = care_now()
-    summary: dict[str, int] = {}
     for encounter in open_encounters.iterator():
         key = f"{encounter.encounter_class}_{encounter.status}"
         rule = EncounterAutoCloseRegistry.get(key=key, class_key=encounter.encounter_class)
@@ -63,7 +62,4 @@ def run_auto_close() -> dict[str, int]:
         if reference is None or now - reference < timedelta(hours=rule.time_limit):
             continue
         _close_encounter(encounter)
-        label = rule.encounter_class.value
-        summary[label] = summary.get(label, 0) + 1
-
-    return summary
+    logger.info("Auto closed encounters completed.")
